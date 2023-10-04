@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FaSignInAlt } from 'react-icons/fa';
 
-import { login } from '../features/auth/authSlice';
+import { login, reset } from '../features/auth/authSlice';
+import Spinner from '../components/Spinner';
 
 const initialFormData = {
   email: '',
@@ -15,9 +18,29 @@ function Login() {
   const { email, password } = formData;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { user, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.auth
   );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    // Redirect to home page when logged in
+    if (isSuccess) {
+      toast.success('Logged in');
+      navigate('/');
+    }
+
+    if (user) {
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, user, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -36,6 +59,8 @@ function Login() {
 
     dispatch(login(userData));
   };
+
+  if (isLoading) return <Spinner />;
 
   return (
     <>
