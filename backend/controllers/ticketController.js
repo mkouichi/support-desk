@@ -15,16 +15,14 @@ const getTickets = asyncHandler(async (req, res) => {
 // @route   GET /api/tickets/:id
 // @access  Private
 const getTicket = asyncHandler(async (req, res) => {
-  const ticket = await Ticket.findById(req.params.id);
+  const ticket = await Ticket.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  });
 
   if (!ticket) {
     res.status(404);
     throw new Error('Ticket not found');
-  }
-
-  // Reject if user is not the owner of the ticket
-  if (ticket.user.toString() !== req.user.id) {
-    return res.status(401).json(new Error('Not Authorized'));
   }
 
   res.status(200).json(ticket);
@@ -55,22 +53,20 @@ const createTicket = asyncHandler(async (req, res) => {
 // @route   PUT /api/tickets/:id
 // @access  Private
 const updateTicket = asyncHandler(async (req, res) => {
-  const ticket = await Ticket.findById(req.params.id);
+  const ticket = await Ticket.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  });
 
   if (!ticket) {
     res.status(404);
     throw new Error('Ticket not found');
   }
 
-  // Reject if user is not the owner of the ticket
-  if (ticket.user.toString() !== req.user.id) {
-    return res.status(401).json(new Error('Not Authorized'));
-  }
-
   const updatedTicket = await Ticket.findByIdAndUpdate(
     req.params.id,
     req.body,
-    { new: true }
+    { new: true, runValidators: true }
   );
 
   res.status(200).json(updatedTicket);
@@ -80,16 +76,14 @@ const updateTicket = asyncHandler(async (req, res) => {
 // @route   DELETE /api/tickets/:id
 // @access  Private
 const deleteTicket = asyncHandler(async (req, res) => {
-  const ticket = await Ticket.findById(req.params.id);
+  const ticket = await Ticket.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  });
 
   if (!ticket) {
     res.status(404);
     throw new Error('Ticket not found');
-  }
-
-  // Reject if user is not the owner of the ticket
-  if (ticket.user.toString() !== req.user.id) {
-    return res.status(401).json(new Error('Not Authorized'));
   }
 
   await Ticket.findByIdAndDelete(req.params.id);
