@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NewTicket from './pages/NewTicket';
+import Tickets from './pages/Tickets';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,11 @@ const router = createBrowserRouter([
         path: '/new-ticket',
         element: <PrivateRoute />,
         children: [{ index: true, element: <NewTicket /> }],
+      },
+      {
+        path: '/tickets',
+        element: <PrivateRoute />,
+        children: [{ index: true, element: <Tickets /> }],
       },
     ],
   },
