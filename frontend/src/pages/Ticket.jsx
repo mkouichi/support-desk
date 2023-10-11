@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { getTicket, reset } from '../features/tickets/ticketSlice';
+import { getTicket } from '../features/tickets/ticketSlice';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 
 function Ticket() {
-  const { ticket, isLoading, isSuccess, isError, message } = useSelector(
+  const { ticket, isLoading, isError, message } = useSelector(
     (state) => state.tickets
   );
 
@@ -37,7 +37,7 @@ function Ticket() {
           </span>
         </h2>
         <h3>
-          Date Submitted: {new Date(ticket.createdAt).toLocaleString('en-US')}
+          Date Submitted: {new Date(ticket.createdAt).toLocaleString('en-CA')}
         </h3>
         <h3>Product: {ticket.product}</h3>
         <hr />

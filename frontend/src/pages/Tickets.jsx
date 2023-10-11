@@ -1,29 +1,26 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTickets, reset } from '../features/tickets/ticketSlice';
+import { toast } from 'react-toastify';
 
+import { getTickets } from '../features/tickets/ticketSlice';
 import Spinner from '../components/Spinner';
 import BackButton from '../components/BackButton';
 import TicketItem from '../components/TicketItem';
 
 function Tickets() {
-  const { tickets, isLoading, isSuccess } = useSelector(
+  const { tickets, isLoading, isError, message } = useSelector(
     (state) => state.tickets
   );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTickets());
-  }, [dispatch]);
+    if (isError) {
+      toast.error(message);
+    }
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (isSuccess) {
-  //       dispatch(reset());
-  //     }
-  //   };
-  // }, [dispatch, isSuccess]);
+    dispatch(getTickets());
+  }, [dispatch, isError, message]);
 
   if (isLoading) return <Spinner />;
 
