@@ -11,19 +11,6 @@ import NoteItem from '../components/NoteItem';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 
-const customStyles = {
-  content: {
-    width: '80vw',
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    position: 'relative',
-  },
-};
-
 Modal.setAppElement('#root');
 
 function Ticket() {
@@ -109,7 +96,7 @@ function Ticket() {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        className='custom-modal'
         contentLabel='Add Note'>
         <h2>Add Note</h2>
         <button className='btn-close' onClick={closeModal}>

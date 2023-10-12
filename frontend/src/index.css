@@ -185,6 +185,27 @@ h3 {
   transform: scale(0.98);
 }
 
+.custom-modal {
+  width: 90vw;
+  inset: 50% auto auto 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  position: relative;
+
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+}
+
+@media (min-width: 648px) {
+  .custom-modal {
+    width: 600px;
+  }
+}
+
 .ticket-created {
   border: 1px solid #e6e6e6;
   border-radius: 5px;
