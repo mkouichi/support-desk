@@ -6,7 +6,11 @@ import Modal from 'react-modal';
 import { FaPlus } from 'react-icons/fa';
 
 import { getTicket, closeTicket } from '../features/tickets/ticketSlice';
-import { getNotes, reset as notesReset } from '../features/notes/noteSlice';
+import {
+  getNotes,
+  createNote,
+  reset as notesReset,
+} from '../features/notes/noteSlice';
 import NoteItem from '../components/NoteItem';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
@@ -55,8 +59,7 @@ function Ticket() {
   const onNoteSubmit = (e) => {
     e.preventDefault();
 
-    console.log(noteText);
-
+    dispatch(createNote({ noteText, ticketId }));
     closeModal();
     setNoteText('');
   };
@@ -102,7 +105,6 @@ function Ticket() {
         <button className='btn-close' onClick={closeModal}>
           X
         </button>
-        <div>I am a modal</div>
         <form onSubmit={onNoteSubmit}>
           <div className='form-group'>
             <textarea
