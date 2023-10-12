@@ -25,6 +25,11 @@ const getTicket = asyncHandler(async (req, res) => {
     throw new Error('Ticket not found');
   }
 
+  if (ticket.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error('Not Authorized');
+  }
+
   res.status(200).json(ticket);
 });
 
@@ -63,6 +68,11 @@ const updateTicket = asyncHandler(async (req, res) => {
     throw new Error('Ticket not found');
   }
 
+  if (ticket.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error('Not Authorized');
+  }
+
   const updatedTicket = await Ticket.findByIdAndUpdate(
     req.params.id,
     req.body,
@@ -84,6 +94,11 @@ const deleteTicket = asyncHandler(async (req, res) => {
   if (!ticket) {
     res.status(404);
     throw new Error('Ticket not found');
+  }
+
+  if (ticket.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error('Not Authorized');
   }
 
   await Ticket.findByIdAndDelete(req.params.id);
