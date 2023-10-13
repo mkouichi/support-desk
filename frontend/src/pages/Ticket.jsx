@@ -6,11 +6,7 @@ import Modal from 'react-modal';
 import { FaPlus } from 'react-icons/fa';
 
 import { getTicket, closeTicket } from '../features/tickets/ticketSlice';
-import {
-  getNotes,
-  createNote,
-  reset as notesReset,
-} from '../features/notes/noteSlice';
+import { getNotes, createNote } from '../features/notes/noteSlice';
 import NoteItem from '../components/NoteItem';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
