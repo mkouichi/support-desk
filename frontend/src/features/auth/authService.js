@@ -1,27 +1,61 @@
-import axios from 'axios';
-
 const API_URL = '/api/users/';
-
-// Register user
-const register = async (userData) => {
-  const response = await axios.post(API_URL, userData);
-
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data));
-  }
-
-  return response.data;
-};
 
 // Login user
 const login = async (userData) => {
-  const response = await axios.post(API_URL + 'login', userData);
+  try {
+    const response = await fetch(API_URL + 'login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
 
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data));
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || 'Network response was not ok');
+    }
+
+    const data = await response.json();
+
+    if (data) {
+      localStorage.setItem('user', JSON.stringify(data));
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error during login:', error);
+    throw error;
   }
+};
 
-  return response.data;
+// Register user
+const register = async (userData) => {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || 'Network response was not ok');
+    }
+
+    const data = await response.json();
+
+    if (data) {
+      localStorage.setItem('user', JSON.stringify(data));
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error during registration:', error);
+    throw error;
+  }
 };
 
 // Logout user
